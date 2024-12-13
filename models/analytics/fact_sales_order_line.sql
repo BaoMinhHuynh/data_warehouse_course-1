@@ -4,6 +4,7 @@ WITH fact_sales_order_line__source AS (
 ), fact_sales_order_line__rename AS (
   SELECT 
     order_line_id AS sale_order_line_key,
+    order_id AS sale_order_key
     stock_item_id AS product_key,
     quantity ,
     unit_price 
@@ -15,6 +16,10 @@ WITH fact_sales_order_line__source AS (
   CAST(quantity AS INTEGER) AS quantity,
   CAST(unit_price AS NUMERIC) AS unit_price,
   FROM fact_sales_order_line__rename
+), fact_sales_order_line__calculate_measure AS (
+  SELECT *,
+     quantity*unit_price AS  gross_amount
+  FROM fact_sales_order_line__cast
 )
 
 SELECT 
@@ -22,5 +27,5 @@ SELECT
   product_key,
   quantity,
   unit_price,
-  quantity*unit_price AS  gross_amount
-FROM fact_sales_order_line__cast
+  gross_amount
+FROM fact_sales_order_line__calculate_measure 
