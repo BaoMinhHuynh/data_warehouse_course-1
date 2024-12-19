@@ -4,7 +4,7 @@ WITH fact_sales_order_line__source AS (
 ), fact_sales_order_line__rename AS (
   SELECT 
     order_line_id AS sale_order_line_key,
-    order_id AS sale_order_key
+    order_id AS sale_order_key,
     stock_item_id AS product_key,
     quantity ,
     unit_price 
@@ -12,6 +12,7 @@ WITH fact_sales_order_line__source AS (
 ), fact_sales_order_line__cast AS(
   SELECT 
   CAST(sale_order_line_key AS INTEGER )AS sale_order_line_key,
+  CAST(sale_order_key AS INTEGER) AS sale_order_key,
   CAST(product_key AS INTEGER) AS product_key,
   CAST(quantity AS INTEGER) AS quantity,
   CAST(unit_price AS NUMERIC) AS unit_price,
@@ -24,6 +25,7 @@ WITH fact_sales_order_line__source AS (
 
 SELECT 
   sale_order_line_key,
+  sale_order_key,
   product_key,
   quantity,
   unit_price,
