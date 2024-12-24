@@ -24,10 +24,14 @@ WITH fact_sales_order_line__source AS (
 )
 
 SELECT 
-  sale_order_line_key,
-  sale_order_key,
-  product_key,
-  quantity,
-  unit_price,
-  gross_amount
-FROM fact_sales_order_line__calculate_measure 
+  fact_line.sale_order_line_key,
+  fact_line.sale_order_key,
+  fact_header.customer_key,
+  fact_line.product_key,
+  fact_line.quantity,
+  fact_line.unit_price,
+  fact_line.gross_amount
+FROM fact_sales_order_line__calculate_measure AS fact_line
+LEFT JOIN `weighty-flag-435812-j2.wide_world_importers_dwh_staging.stg_fact_sales_order` AS fact_header
+ON fact_line.sale_order_key = fact_header.sale_order_key
+
