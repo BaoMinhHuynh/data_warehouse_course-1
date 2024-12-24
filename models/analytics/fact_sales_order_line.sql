@@ -32,6 +32,6 @@ SELECT
   fact_line.unit_price,
   fact_line.gross_amount
 FROM fact_sales_order_line__calculate_measure AS fact_line
-LEFT JOIN `weighty-flag-435812-j2.wide_world_importers_dwh_staging.stg_fact_sales_order` AS fact_header
+LEFT JOIN {{ref('stg_fact_sales_order')}} AS fact_header
 ON fact_line.sale_order_key = fact_header.sale_order_key
 
